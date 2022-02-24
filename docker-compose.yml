@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  app:
+    container_name: example_app
+    restart: always
+    build: .
+    ports:
+      - "5000:3000"
+    # link volumes location (de esta manera vemos las modificaciones del host dentro de container)  
+    volumes:
+      - .:/usr/src/app
+    # creo que no hace falta ya que se crea una red dentro del compose para todos los contenedores  
+    # links:
+    #   - mongodb
+  mongodb:
+    container_name: mongo_database
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo-data:/data/db
+    # no visualizar logs  
+    logging:
+      driver: none
+  mongo-express:
+    container_name: mongo_api
+    image: mongo-express
+    #restart: always -> por error de Could not connect to database using connectionString: mongodb://admin:password@mongodb:27017/"
+    restart: always
+    ports: 
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      #- ME_CONFIG_MONGODB_URL=mongodb://admin:password@mongodb:27017/
+    #depends_on:
+    #  - mongodb
+    #como no termina se queda esperando
+    #depends_on:
+    #  mongodb:
+    #    condition: service_completed_successfully
+volumes:
+  mongo-data:
+    driver: local
+
+# hay algun issue con alguna version de mongo y mongo-express
+# si lo corremos luego de que levanta la bd manualemente funciona
+# docker run --network node-mongo-compose_default 
+# -e ME_CONFIG_MONGODB_SERVER=mongodb 
+# -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin 
+# -e ME_CONFIG_MONGODB_ADMINPASSWORD=password 
+# -p 8081:8081 mongo-express
