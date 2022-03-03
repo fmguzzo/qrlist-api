@@ -4,15 +4,15 @@
   "description": "",
   "main": "/src/app.js",
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node build/src/app.js",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@typegoose/typegoose": "^9.7.0",
     "argon2": "^0.28.4",
     "config": "^3.3.7",
     "dayjs": "^1.10.7",

@@ -1,7 +1,10 @@
 export default {
-  port: 3000,
+  port: 3030,
   mongodb: {
-    url: "mongodb://mongodb:27017/tutorial",
+    // DB without docker - sudo systemctl start mongod
+    url: "mongodb://localhost:27017/tutorial",
+    // DB with docker - docker-compose build / docker-compose up
+    //url: "mongodb://mongodb:27017/tutorial",
     options: {
       useUnifiedTopology: true,
       useNewUrlParser: true,
