@@ -1,22 +1,16 @@
 import connectToDb from "./utils/connectToDb";
 import log from "./utils/logger";
-import dotenv from "dotenv";
-
-// load environment variables
-dotenv.config();
-
-import config from "config";
+import config from "./config/config";
 import createServer from "./server";
 
 // get config variables
-const port = config.get("port");
+const port = config.port;
 
-console.log("key from process.env:", process.env.ACCESS_TOKEN_PRIVATE_KEY);
-console.log("key from config: ", config.get("accessTokenPrivateKey")); // no la recupera!
+//console.log("key from config: ", config.get<string>("accessTokenPrivateKey")); // no la recupera!
 
 const app = createServer();
 
 app.listen(port, async () => {
-  log.info(`App started at port: ${port}`);
+  log.info(`App started at [http://localhost:${port}]`);
   await connectToDb();
 });

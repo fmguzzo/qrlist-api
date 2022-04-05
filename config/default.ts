@@ -11,8 +11,10 @@ export default {
     },
   },
   logLevel: "info",
-  accessTokenPrivateKey: "",
-  refreshTokenPrivateKey: "",
+  accessTokenPrivateKey: ``,
+  accessTokenPublicKey: ``,
+  refreshTokenPrivateKey: ``,
+  refreshTokenPublicKey: ``,
   smtp: {
     user: "icqskc5mxzf3bwct@ethereal.email",
     pass: "mVSU79SbF3WmvGqy4V",

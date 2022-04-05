@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createSession } from "../services/session.services";
+import { createSession } from "../services/session.service";
 
 export async function createSessionHandler(
   req: Request,
