@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
-import { CreateUserInput } from "../schema/user.schema";
-import { createUser } from "../services/user.service";
+import { CreateUserInput, VerifyUserInput } from "../schema/user.schema";
+import { createUser, findUserById } from "../services/user.service";
 import { omit } from "lodash";
 
 import log from "../utils/logger";
@@ -33,5 +33,42 @@ export async function createUserHandler(
     }
     //return res.status(500).send(err);
     return next(err);
+  }
+}
+
+// TODO: type parameter
+export async function verifyUserHandler(
+  req: Request<VerifyUserInput>,
+  res: Response,
+  next: NextFunction
+) {
+  const id = req.params.id;
+  const verificationCode = req.params.verificationCode;
+
+  try {
+    // find user by id
+    const user = await findUserById(id);
+
+    if (!user) {
+      res.status(404);
+      throw new Error("Could not verify user. User does not exit.");
+    }
+
+    // check to see if they are already verified
+    if (user.verified) {
+      res.status(400);
+      throw new Error("User is already verified.");
+    }
+
+    // check to see if the verificationCode matches
+    if (user.verificationCode === verificationCode) {
+      user.verified = true;
+      await user.save();
+      return res.send(omit(user.toJSON(), ["password", "verificationCode"]));
+    }
+    res.status(400);
+    throw new Error("Could not verify user.");
+  } catch (err: any) {
+    next(err);
   }
 }

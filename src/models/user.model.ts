@@ -9,6 +9,7 @@ export interface UserField {
   lastName: string;
   password: string;
   verificationCode: string;
+  verified: boolean;
   passwordResetCode: string | null;
 }
 

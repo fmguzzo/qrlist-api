@@ -21,7 +21,7 @@ function createServer() {
   // parse urlencoded request body
   app.use(express.urlencoded({ extended: true }));
 
-  // sanitize request data
+  // TODO: sanitize request data
   //app.use(xss());
   //app.use(mongoSanitize());
 
