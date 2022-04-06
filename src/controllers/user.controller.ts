@@ -5,7 +5,7 @@ import { createUser } from "../services/user.service";
 import { omit } from "lodash";
 
 import log from "../utils/logger";
-//import { sendEmail } from "../utils/mailer";
+import sendEmail from "../utils/mailer";
 
 export async function createUserHandler(
   req: Request<{}, {}, CreateUserInput>,
@@ -16,14 +16,13 @@ export async function createUserHandler(
 
   try {
     const user = await createUser(body);
-    /*
-    await sendEmail({
+
+    // await sendEmail({
+    sendEmail({
       to: user.email,
-      from: "test@example.com",
       subject: "Verify your email",
       text: `verification code: ${user.verificationCode}. Id: ${user._id}`,
     });
-    */
 
     return res.send(omit(user.toJSON(), ["password", "verificationCode"]));
   } catch (err: any) {

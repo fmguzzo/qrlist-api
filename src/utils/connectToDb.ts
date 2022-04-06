@@ -33,6 +33,7 @@ async function connectToDb() {
     );
   } catch (err: any) {
     log.error(`Could not connect to Database: ${err.message}`);
+    // TODO: log error but not stop server
     process.exit(1);
   }
 }
