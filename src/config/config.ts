@@ -72,7 +72,7 @@ const config = {
       useNewUrlParser: true,
     },
   },
-  logLevel: "info",
+  logLevel: "debug",
   saltWorkFactor: 10,
   // accessTokenPrivateKey: process.env.ACCESS_TOKEN_PRIVATE_KEY,
   // accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY,
