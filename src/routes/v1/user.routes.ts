@@ -1,5 +1,6 @@
 import express from "express";
 import validateResource from "../../middlewares/validateResource";
+import requireUser from "../../middlewares/requireUser";
 import {
   createUserSchema,
   verifyUserSchema,
@@ -11,6 +12,7 @@ import {
   verifyUserHandler,
   forgotPasswordHandler,
   resetPasswordHandler,
+  getCurrentUserHandler,
 } from "../../controllers/user.controller";
 
 const router = express.Router();
@@ -34,5 +36,7 @@ router.post(
   validateResource(resetPasswordSchema),
   resetPasswordHandler
 );
+
+router.get("/users/me", requireUser, getCurrentUserHandler);
 
 export default router;

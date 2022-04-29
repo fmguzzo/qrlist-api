@@ -29,6 +29,24 @@ const configFileSchema = z.object({
   saltWorkFactor: z.number({
     required_error: "Salt work factor is required",
   }),
+  accessTokenTtl: z.string({
+    required_error: "Access token expire is required",
+  }),
+  refreshTokenTtl: z.string({
+    required_error: "Refresh token expire is required",
+  }),
+  accessTokenPrivateKey: z.string({
+    required_error: "Access token private key is required",
+  }),
+  accessTokenPublicKey: z.string({
+    required_error: "Access token public key is required",
+  }),
+  refreshTokenPrivateKey: z.string({
+    required_error: "Refresh token private key is required",
+  }),
+  refreshTokenPublicKey: z.string({
+    required_error: "Refresh token public key is required",
+  }),
   email: z.object({
     smtp: z.object({
       host: z.string({
@@ -74,10 +92,12 @@ const config = {
   },
   logLevel: "debug",
   saltWorkFactor: 10,
-  // accessTokenPrivateKey: process.env.ACCESS_TOKEN_PRIVATE_KEY,
-  // accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY,
-  // refreshTokenPrivateKey: process.env.REFRESH_PRIVATE_KEY,
-  // refreshTokenPublicKey: process.env.REFRESH_PUBLIC_KEY,
+  accessTokenTtl: "1m",
+  refreshTokenTtl: "1y",
+  accessTokenPrivateKey: process.env.ACCESS_TOKEN_PRIVATE_KEY,
+  accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY,
+  refreshTokenPrivateKey: process.env.REFRESH_TOKEN_PRIVATE_KEY,
+  refreshTokenPublicKey: process.env.REFRESH_TOKEN_PUBLIC_KEY,
   email: {
     smtp: {
       host: process.env.SMTP_HOST,

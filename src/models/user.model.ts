@@ -16,7 +16,16 @@ export interface UserField {
 export interface UserDocument extends UserField, mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
+  comparePassword(candidatePassword: string): Promise<Boolean>;
 }
+
+export const privateFields = [
+  "password",
+  "__v",
+  "verificationCode",
+  "passwordResetCode",
+  "verified",
+];
 
 const userSchema = new mongoose.Schema(
   {

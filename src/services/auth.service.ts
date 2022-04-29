@@ -1,0 +1,66 @@
+import { omit } from "lodash";
+import config from "../config/config";
+import { signJwt } from "../utils/jwt";
+import { privateFields, UserDocument } from "../models/user.model";
+import SessionModel, { SessionDocument } from "../models/session.model";
+
+/*
+export async function createSession(user: string, isAdmin: boolean) {
+  const session = await SessionModel.create({ user, isAdmin });
+  return session.toJSON();
+}
+*/
+
+export async function createSession({
+  userId,
+  userAgent,
+}: {
+  userId: string;
+  userAgent: string;
+}) {
+  console.log(userId);
+  return SessionModel.create({ user: userId, userAgent });
+}
+
+export async function findSessionById(sessionId: string) {
+  return SessionModel.findById(sessionId);
+}
+
+export async function findSessions(query: { user: string; valid: boolean }) {
+  return SessionModel.findOne(query);
+}
+
+export async function signRefreshToken({
+  userId,
+  userAgent,
+}: {
+  userId: string;
+  userAgent: string;
+}) {
+  const session = await createSession({
+    userId,
+    userAgent,
+  });
+
+  const refreshToken = signJwt(
+    {
+      session: session._id,
+    },
+    "refreshTokenPrivateKey",
+    {
+      expiresIn: config.refreshTokenTtl,
+    }
+  );
+
+  return refreshToken;
+}
+
+export function signAccessToken(user: UserDocument) {
+  const payload = omit(user.toJSON(), privateFields);
+
+  const accessToken = signJwt(payload, "accessTokenPrivateKey", {
+    expiresIn: config.accessTokenTtl,
+  });
+
+  return accessToken;
+}
