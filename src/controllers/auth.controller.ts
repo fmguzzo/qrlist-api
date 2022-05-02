@@ -5,11 +5,15 @@ import {
   signRefreshToken,
   findSessionById,
   findSessions,
+  updateSession,
 } from "../services/auth.service";
 import { findUserByEmail, findUserById } from "../services/user.service";
 import { get } from "lodash";
 import { verifyJwt } from "../utils/jwt";
 
+// Represent login - Create new session when is called
+// Dont't check if active session already exist
+// Create new session active and left the oders active too
 export async function createSessionHandler(
   req: Request<{}, {}, CreateSessionInput>,
   res: Response,
@@ -97,25 +101,55 @@ export async function refreshAccessTokenHandler(
   }
 }
 
-export async function getUserSessionsHandler(req: Request, res: Response) {
-  const userId = res.locals.user._id;
-
-  const sessions = await findSessions({ user: userId, valid: true });
-
-  return res.send(sessions);
+export async function getUserSessionsHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const userId = res.locals.user._id;
+    const sessions = await findSessions({ user: userId, valid: true });
+    if (!sessions) {
+      res.status(403);
+      throw new Error("Does not exist active session for User");
+    }
+    return res.send(sessions);
+  } catch (error) {
+    next(error);
+  }
 }
 
-export async function deleteSessionHandler(req: Request, res: Response) {
-  // TODO: Inplement logout / ver API producto, el desarialize, manejo del refresh
-  // y ver que en el jwt payload almacena la session tbn.
-  /*
-  const sessionId = res.locals.user.session;
+/**********************************************************
+// Representa un logout. No esta implementado 100%. 
+// A modo de ejemplo se busca la primera session activa
+// Con la actual implementacion solo podemos obtener la
+// session activa del refreshtoken. Habria que estudiar
+// cual es la mejor implementacion segun las necesidades
+// https://github.com/TomDoesTech/REST-API-Tutorial-Updated
+// En el repo de arriba, podria ser una opcion:
+// - Se almacena la session en el access token
+// - deserializeUser.ts almacena ademas de user, la session 
+*********************************************************** */
+export async function deleteSessionHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  // TODO: el desarialize, manejo del refresh
+  try {
+    const userId = res.locals.user._id;
+    const sessions = await findSessions({ user: userId, valid: true });
+    if (!sessions) {
+      res.status(403);
+      throw new Error("Does not exist active session for User");
+    }
+    await updateSession({ _id: sessions?._id }, { valid: false });
 
-  await updateSession({ _id: sessionId }, { valid: false });
-
-  return res.send({
-    accessToken: null,
-    refreshToken: null,
-  });
-  */
+    return res.send({
+      accessToken: null,
+      refreshToken: null,
+    });
+  } catch (error) {
+    next(error);
+  }
 }

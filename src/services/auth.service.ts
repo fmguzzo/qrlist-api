@@ -1,6 +1,7 @@
 import { omit } from "lodash";
 import config from "../config/config";
 import { signJwt } from "../utils/jwt";
+import { FilterQuery, UpdateQuery } from "mongoose";
 import { privateFields, UserDocument } from "../models/user.model";
 import SessionModel, { SessionDocument } from "../models/session.model";
 
@@ -26,8 +27,15 @@ export async function findSessionById(sessionId: string) {
   return SessionModel.findById(sessionId);
 }
 
-export async function findSessions(query: { user: string; valid: boolean }) {
+export async function findSessions(query: FilterQuery<SessionDocument>) {
   return SessionModel.findOne(query);
+}
+
+export async function updateSession(
+  query: FilterQuery<SessionDocument>,
+  update: UpdateQuery<SessionDocument>
+) {
+  return SessionModel.updateOne(query, update);
 }
 
 export async function signRefreshToken({

@@ -1,13 +1,19 @@
-import UserModel, { UserField } from "../models/user.model";
+import { FilterQuery } from "mongoose";
+import UserModel, { UserField, UserDocument } from "../models/user.model";
 
-export function createUser(input: Partial<UserField>) {
+export async function createUser(input: Partial<UserField>) {
   return UserModel.create(input);
 }
 
-export function findUserById(id: string) {
+export async function findUserById(id: string) {
   return UserModel.findById(id);
 }
 
-export function findUserByEmail(email: string) {
+export async function findUserByEmail(email: string) {
   return UserModel.findOne({ email });
+}
+
+// General findUser()
+export async function findUser(query: FilterQuery<UserDocument>) {
+  return UserModel.findOne(query).lean();
 }
