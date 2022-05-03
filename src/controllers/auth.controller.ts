@@ -69,7 +69,7 @@ export async function refreshAccessTokenHandler(
   try {
     const refreshToken = get(req, "headers.x-refresh");
 
-    const decoded = verifyJwt<{ session: string }>(
+    const { decoded } = verifyJwt<{ session: string }>(
       refreshToken,
       "refreshTokenPublicKey"
     );

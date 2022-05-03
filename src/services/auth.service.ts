@@ -19,7 +19,6 @@ export async function createSession({
   userId: string;
   userAgent: string;
 }) {
-  console.log(userId);
   return SessionModel.create({ user: userId, userAgent });
 }
 

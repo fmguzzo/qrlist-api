@@ -16,12 +16,20 @@ export function signJwt(
 export function verifyJwt<T>(
   token: string,
   keyName: "accessTokenPublicKey" | "refreshTokenPublicKey"
-): T | null {
+): { valid: boolean; expired: boolean; decoded: T | null } {
   const publicKey = Buffer.from(config[keyName], "base64").toString("ascii");
   try {
     const decoded = jwt.verify(token, publicKey) as unknown as T;
-    return decoded;
-  } catch (error) {
-    return null;
+    return {
+      valid: true,
+      expired: false,
+      decoded,
+    };
+  } catch (error: any) {
+    return {
+      valid: false,
+      expired: error.message === "jwt expired",
+      decoded: null,
+    };
   }
 }
