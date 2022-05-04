@@ -18,5 +18,8 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["@typescript-eslint", "import"],
-  rules: {},
+  rules: {
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-types": "off",
+  },
 };

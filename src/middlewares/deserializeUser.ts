@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyJwt } from "../utils/jwt";
-import { get } from "lodash";
+//import { get } from "lodash";
 
 // Simple deserializeUser
 /*
@@ -39,13 +39,14 @@ const deserializeUser = async (
     ""
   );
 
-  const refreshToken = get(req, "headers.x-refresh");
+  //const refreshToken = get(req, "headers.x-refresh");
 
   if (!accessToken) {
     return next();
   }
 
-  const { decoded, expired } = verifyJwt(accessToken, "accessTokenPublicKey");
+  //const { decoded, expired } = verifyJwt(accessToken, "accessTokenPublicKey");
+  const { decoded } = verifyJwt(accessToken, "accessTokenPublicKey");
 
   if (decoded) {
     res.locals.user = decoded;

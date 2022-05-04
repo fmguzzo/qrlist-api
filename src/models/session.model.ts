@@ -1,9 +1,8 @@
-import { Document, Schema, model, Types } from "mongoose";
+import { Document, Schema, model } from "mongoose";
 import { UserDocument } from "./user.model";
 
 export interface SessionDocument extends Document {
   user: UserDocument["_id"];
-  //user: Types.ObjectId;
   valid: boolean;
   userAgent: string;
   createdAt: Date;
