@@ -1,9 +1,9 @@
 import express from "express";
 import helmet from "helmet";
-import router from "./routes/v1";
+import router from "../routes/v1";
 import morgan from "morgan";
-import { errorHandler, notFoundHandler } from "./middlewares/error";
-import deserializeUser from "./middlewares/deserializeUser";
+import { errorHandler, notFoundHandler } from "../middlewares/error";
+import deserializeUser from "../middlewares/deserializeUser";
 
 function createServer() {
   const app = express();
