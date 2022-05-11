@@ -12,5 +12,7 @@ module.exports = {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
   testRegex: "src/.*\\.test\\.ts$",
-  //clearMocks: true,
+  clearMocks: true,
+  resetMocks: true,
+  restoreMocks: true,
 };
