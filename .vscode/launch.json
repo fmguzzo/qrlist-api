@@ -5,6 +5,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach Debug Dev",
+      "port": 9229,
+      "request": "attach",
+      "sourceMaps": true,
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    },
+    {
       "type": "node",
       "name": "vscode-jest-tests.v2",
       "request": "launch",

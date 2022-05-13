@@ -14,9 +14,9 @@
     "build:ts": "tsc",
     "build": "npm run clean && npm run build:ts",
     "test": "jest --forceExit --coverage --verbose",
-    "watch:test": "npm run test -- --watchAll",
+    "test:watch": "npm run test -- --watchAll",
     "start": "node build/app.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/app.ts"
+    "dev": "ts-node-dev --inspect --respawn --transpile-only src/app.ts"
   },
   "keywords": [],
   "author": "",
