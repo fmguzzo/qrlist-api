@@ -75,6 +75,14 @@ const configFileSchema = z.object({
         .email("From does not a valid email"),
     }),
   }),
+  // allowedAppUrl: z.string({
+  //   required_error:
+  //     'Allowed App URL is required example: "http://localhost:3000, http://localhost:3001"',
+  // }),
+  allowedAppUrl: z.string().array().nonempty({
+    message:
+      'Allowed App URL is required example: "http://localhost:3000, http://localhost:3001"',
+  }),
 });
 
 export type ConfigFile = z.TypeOf<typeof configFileSchema>;
@@ -114,6 +122,7 @@ const config = {
       from: process.env.EMAIL_FROM,
     },
   },
+  allowedAppUrl: process.env.ALLOWED_APP_URL?.split(",") || [],
 };
 
 export default configFileSchema.parse(config);

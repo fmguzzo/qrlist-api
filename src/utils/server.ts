@@ -4,6 +4,7 @@ import router from "../routes/v1";
 import morgan from "morgan";
 import { errorHandler, notFoundHandler } from "../middlewares/error";
 import deserializeUser from "../middlewares/deserializeUser";
+import { corsWithOptions } from "../middlewares/cors";
 
 function createServer() {
   const app = express();
@@ -14,7 +15,7 @@ function createServer() {
   // logger
   app.use(morgan("dev"));
 
-  // TODO: Implement CORS
+  app.use(corsWithOptions);
 
   // parse json request body
   app.use(express.json());
