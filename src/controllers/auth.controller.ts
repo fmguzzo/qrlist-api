@@ -30,7 +30,7 @@ export async function createSessionHandler(
       throw new Error(message);
     }
 
-    if (!user.verified) {
+    if (!user.isEmailVerified) {
       res.status(403);
       throw new Error("Please verify your email");
     }
@@ -53,7 +53,12 @@ export async function createSessionHandler(
     // send the tokens
 
     return res.send({
-      accessToken,
+      success: true,
+      //_id: user._id,
+      //siteId: site._id,
+      email: user.email,
+      admin: user.isAdmin,
+      token: accessToken,
       refreshToken,
     });
   } catch (error) {

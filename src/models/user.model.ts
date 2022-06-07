@@ -9,8 +9,9 @@ export interface UserField {
   lastName: string;
   password: string;
   verificationCode: string;
-  verified: boolean;
+  isEmailVerified: boolean;
   passwordResetCode: string | null;
+  isAdmin: boolean;
 }
 
 export interface UserDocument extends UserField, mongoose.Document {
@@ -24,7 +25,7 @@ export const privateFields = [
   "__v",
   "verificationCode",
   "passwordResetCode",
-  "verified",
+  "isEmailVerified",
 ];
 
 const userSchema = new mongoose.Schema(
@@ -34,6 +35,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       lowercase: true,
+      trim: true,
     },
     firstName: {
       type: String,
@@ -55,7 +57,11 @@ const userSchema = new mongoose.Schema(
     passwordResetCode: {
       type: String,
     },
-    verified: {
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isAdmin: {
       type: Boolean,
       default: false,
     },

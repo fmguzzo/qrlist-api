@@ -20,7 +20,7 @@ const userPayload = {
   firstName: "Felipe",
   lastName: "Martin",
   email: "felipe.martin@example.com",
-  verified: true,
+  isEmailVerified: true,
 };
 
 // TODO: es correcto definir asi los metodos de UserModel

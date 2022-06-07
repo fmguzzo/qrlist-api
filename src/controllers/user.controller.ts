@@ -64,14 +64,14 @@ export async function verifyUserHandler(
     }
 
     // check to see if they are already verified
-    if (user.verified) {
+    if (user.isEmailVerified) {
       res.status(400);
       throw new Error("User is already verified.");
     }
 
     // check to see if the verificationCode matches
     if (user.verificationCode === verificationCode) {
-      user.verified = true;
+      user.isEmailVerified = true;
       await user.save();
       return res.send(
         omit(user.toJSON(), [
@@ -104,7 +104,7 @@ export async function forgotPasswordHandler(
       return res.send(message);
     }
 
-    if (!user.verified) {
+    if (!user.isEmailVerified) {
       res.status(400);
       throw new Error("User is not verified.");
     }
