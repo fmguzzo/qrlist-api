@@ -19,7 +19,7 @@ const router = express.Router();
 
 router.post("/users", validateResource(createUserSchema), createUserHandler);
 
-router.post(
+router.get(
   "/users/verify/:id/:verificationCode",
   validateResource(verifyUserSchema),
   verifyUserHandler

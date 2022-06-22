@@ -27,11 +27,12 @@ export async function createUserHandler(
   try {
     const user = await createUser(body);
 
-    // await sendEmail({
+    // TODO: add anchor to activation link
     sendEmail({
       to: user.email,
       subject: "Verify your email",
-      text: `verification code: ${user.verificationCode}. Id: ${user._id}`,
+      text: `Id: ${user._id} \n verification code: ${user.verificationCode} \n
+      Activation Link: http://${req.headers.host}/api/v1/users/verify/${user._id}/${user.verificationCode}`,
     });
 
     return res.send(omit(user.toJSON(), ["password", "verificationCode"]));
@@ -73,13 +74,14 @@ export async function verifyUserHandler(
     if (user.verificationCode === verificationCode) {
       user.isEmailVerified = true;
       await user.save();
-      return res.send(
-        omit(user.toJSON(), [
-          "password",
-          "verificationCode",
-          "passwordResetCode",
-        ])
-      );
+      // return res.send(
+      //   omit(user.toJSON(), [
+      //     "password",
+      //     "verificationCode",
+      //     "passwordResetCode",
+      //   ])
+      // );
+      return res.send("<h1>Wellcome: User had been verificated.</h1>");
     }
     res.status(400);
     throw new Error("Could not verify user.");
