@@ -8,6 +8,7 @@ import {
   updateSession,
 } from "../services/auth.service";
 import { findUserByEmail, findUserById } from "../services/user.service";
+import { findSiteByOwner } from "../services/site.service";
 import { get } from "lodash";
 import { verifyJwt } from "../utils/jwt";
 
@@ -50,12 +51,14 @@ export async function createSessionHandler(
       userAgent: req.get("user-agent") || "",
     });
 
-    // send the tokens
+    // user link with unique site - allways return site
+    const site = await findSiteByOwner(user._id);
 
+    // send the tokens
     return res.send({
       success: true,
       //_id: user._id,
-      //siteId: site._id,
+      siteId: site?._id,
       email: user.email,
       admin: user.isAdmin,
       token: accessToken,

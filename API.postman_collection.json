@@ -298,8 +298,9 @@
 							"script": {
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"accessToken\", jsonData.token)",
-									"postman.setEnvironmentVariable(\"refreshToken\", jsonData.refreshToken);"
+									"postman.setEnvironmentVariable(\"accessToken\", jsonData.token);",
+									"postman.setEnvironmentVariable(\"refreshToken\", jsonData.refreshToken);",
+									"postman.setEnvironmentVariable(\"siteId\", jsonData.siteId);"
 								],
 								"type": "text/javascript"
 							}
