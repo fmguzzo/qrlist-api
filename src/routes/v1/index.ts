@@ -3,6 +3,7 @@ import userRoute from "./user.routes";
 import authRoute from "./auth.routes";
 import siteRoute from "./site.routes";
 import listRoute from "./list.routes";
+import categoryRoute from "./category.routes";
 
 // v1 router
 const router = express.Router();
@@ -13,5 +14,6 @@ router.use(userRoute);
 router.use(authRoute);
 router.use(siteRoute);
 router.use("/list", listRoute);
+router.use("/category", categoryRoute);
 
 export default router;
