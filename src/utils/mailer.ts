@@ -6,6 +6,13 @@ const smtp = config.email.smtp;
 const auth = config.email.auth;
 const defaults = config.email.defaults;
 
+// async function createTestCreds() {
+//   const creds = await nodemailer.createTestAccount();
+//   console.log({ creds });
+// }
+
+// createTestCreds();
+
 // spread object
 // const transporter = nodemailer.createTransport({
 //   ...smtp,
